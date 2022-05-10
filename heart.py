@@ -1,0 +1,1 @@
+# plot cardiod graph of heart (also could do flower) and turn plotted points in ascii
