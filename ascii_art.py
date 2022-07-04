@@ -4,6 +4,7 @@ import sys
 import math
 from pathlib import Path
 import os
+import time
 
 # grab ascii chars from text file
 ASCII = []
@@ -16,6 +17,7 @@ with open("ascii_grayscale.txt", 'r') as ascii_txt:
 path = Path.joinpath(Path.cwd(), "images")
 imgs = [img for img in path.iterdir()]
 for fp in imgs:
+    start = time.time()
     try:
         img = Image.open(fp)
         img = ImageOps.exif_transpose(img)
@@ -50,8 +52,8 @@ for fp in imgs:
     for i in range(new_height):
         for j in range(new_width):
             # convert image to grayscale
-            r, g, *b = pxs[j,i]
-            gs = int((r + g + b[0]) / 3)
+            r, g, b, *kwargs = pxs[j,i]
+            gs = int((r + g + b) / 3)
             pxs[j,i] = (gs, gs, gs)
             # assign light value to a corresponding char in ASCII
             assg_ratio = len(ASCII) / 256
@@ -62,3 +64,5 @@ for fp in imgs:
 
     # close output file
     result.close()
+    end = time.time()
+    print(end-start)
